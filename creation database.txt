@@ -1,0 +1,72 @@
+create table Customer(
+	CustomerID INT not null primary key,
+	CustomerFirstName VARCHAR(50) not null,
+	CustomerLastName VARCHAR(50) not null,
+	CustomerAddress VARCHAR(50) not null,
+	CustomerCity VARCHAR(50) not null,
+	CustomerPostCode CHAR(4) null,
+	CustomerPhoneNumber CHAR(12) null
+);
+
+create table Inventory(
+InventoryID TINYINT NOT NULL primary key,
+InventoryName VARCHAR(50) NOT null,
+InventoryDescription VARCHAR(255) NULL
+);
+
+create table Employee(
+EmployeeID TINYINT NOT NULL primary key,
+EmployeeFirstName VARCHAR(50) NOT null,
+EmployeeLastName VARCHAR(50) NOT null,
+EmployeeExtension CHAR(4) NULL
+);
+
+create table Sale(
+SaleID tinyint not null primary key,
+CustomerID INT not null,
+InventoryID tinyint not null,
+EmployeeID tinyint not null,
+SaleDate DATE not null,
+SaleQuantity INT not null,
+SaleUnitPrice DECIMAL(10,
+2) not null,
+foreign key (CustomerID) references customer(CustomerID),
+foreign key (InventoryID) references inventory(InventoryID),
+foreign key (EmployeeID) references employee(EmployeeID)
+);
+
+INSERT INTO Inventory (InventoryID, InventoryName, InventoryDescription)
+values
+(1, 'Laptop', 'High performance laptop'),
+(2, 'Mouse', 'Wireless mouse'),
+(3, 'Keyboard', 'Mechanical keyboard');
+
+
+INSERT INTO Employee (EmployeeID, EmployeeFirstName, EmployeeLastName, EmployeeExtension)
+VALUES
+(1, 'Michael', 'Brown', '1234'),
+(2, 'Emily', 'Davis', '5678'),
+(3, 'David', 'Wilson', '9101');
+
+
+INSERT INTO Sale (SaleID, CustomerID, InventoryID, EmployeeID, SaleDate, SaleQuantity, SaleUnitPrice)
+values
+(1, 1, 1, 1, '2024-12-01', 2, 999.99),
+(2, 2, 2, 2, '2024-12-02', 5, 49.99),
+(3, 3, 3, 3, '2024-12-03', 3, 79.99);
+
+SELECT * FROM Customer;
+
+SELECT 
+    SaleID, 
+    CustomerID, 
+    InventoryID, 
+    EmployeeID, 
+    SaleDate, 
+    SaleQuantity, 
+    SaleUnitPrice, 
+    (SaleQuantity * SaleUnitPrice) AS TotalAmount
+FROM 
+    Sale
+ORDER BY 
+    TotalAmount DESC;
